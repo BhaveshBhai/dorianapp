@@ -310,6 +310,7 @@
                 url: localStorage.getItem("HostUrl") + "getUserParticularUser?id=" + id,
 
                 success: function (data) {
+                    
                     if (data.status == 'Login') {
                         window.redirect = '/index.html';
                     }

@@ -239,8 +239,6 @@
           url: localStorage.getItem("HostUrl") + "getAllAccountAssignByAdmin?id=" + id,
 
           success: function (data) {
-            console.log(data.data);
-            console.log(data.status);
             if (data.status = "Login") {
               window.redirect = './Login.html';
             }
@@ -251,10 +249,8 @@
               actionColor: 'success'
             });
 
-
-            // $.toaster({ message: data.message, title: 'success', priority: 'success' });
             var lstContracts = jQuery.parseJSON(data.data);
-            console.log(lstContracts);
+            
             var count = 0;
 
             $.each(lstContracts, function (key, value) {

@@ -4,8 +4,16 @@ const admin = require('firebase-admin');
 
 var appRouter = function (app) {
 
+    //app.use(session({ secret: 'Dorian@Suji', resave: false, saveUninitialized: true }));
     app.use(session({ secret: 'Dorian@Suji', resave: false, saveUninitialized: true }));
-    var sess;
+    // app.use(session({
+    //     secret: 'Dorian@Suji',
+    //     resave: false,
+    //     saveUninitialized: true,
+    //     cookie: { secure: true }
+    //   }))
+
+
 
     var serviceAccount = require("../serviceAccountKey.json");
 
@@ -16,13 +24,15 @@ var appRouter = function (app) {
     var db = admin.firestore();
 
     app.get("/", function (req, res) {
-        res.send("Hello World");
+        var sess = req.session.email;
+        sess.email = null;
+        res.send('Returning with some text');
     });
 
     // User Regisration 
 
     app.post('/register', function (req, res) {
-        console.log(req.body);
+
         var full_name = req.body.full_name;
         var email = req.body.email;
         var upassword = req.body.upassword;
@@ -53,20 +63,19 @@ var appRouter = function (app) {
 
     //User Login 
     app.post('/login', function (req, res) {
-       
+
         var email = req.body.email;
-       
+
         var upassword = req.body.upassword;
         var userref = db.collection('users');
-          sess = req.session;
-       
+
         var query = userref.where('email', '==', email).where('upassword', '==', upassword).get()
             .then(snapshot => {
                 snapshot.forEach(doc => {
-                   
-                    sess.email=doc.data().email;
-                    sess.firstName=doc.data().firstName;
+                    var sessData = req.session;
+                    sessData.email = doc.data().email;
 
+                    console.log(sessData);
                     var returnResult = {
                         type: doc.data().utype,
                         email: doc.data().email
@@ -80,7 +89,10 @@ var appRouter = function (app) {
 
     //Add client and users
     app.post('/AddClients', function (req, res) {
-        console.log(req.body);
+        var sess = req.session.email;
+        if (!sess) {
+            res.status(400).send({ "status": "Error", data: "login", "message": "You can not allow this request with login" });
+        }
         var Clients_ref = db.collection("users");
         if (!req.body.firstName) { req.body.firstName = ""; }
         if (!req.body.lastName) { req.body.lastName = ""; }
@@ -130,6 +142,10 @@ var appRouter = function (app) {
 
     //get all client and user 
     app.get('/get_All_CLeint', function (req, res) {
+        var sess = req.session.email;
+        if (!sess) {
+            res.status(400).send({ "status": "Error", data: "login", "message": "You can not allow this request with login" });
+        }
         var result = false;
         var users_ref = db.collection("users");
         var query = users_ref.get()
@@ -145,15 +161,19 @@ var appRouter = function (app) {
                 res.status(200).send({ status: "success", data: JSON.stringify(lstClient), message: "Data load successfully" });
 
             }
-            , function (error) {
-                // Something went wrong.
-                console.error(error);
-                res.status(400).send({ "status": "error", "message": "Data load fail" });
-            });
+                , function (error) {
+                    // Something went wrong.
+                    console.error(error);
+                    res.status(400).send({ "status": "error", "message": "Data load fail" });
+                });
     });
 
     //get all client 
     app.get('/getOnlyCLeints', function (req, res) {
+        var sess = req.session.email;
+        if (!sess) {
+            res.status(400).send({ "status": "Error", data: "login", "message": "You can not allow this request with login" });
+        }
         var result = false;
         var users_ref = db.collection("users");
         var query = users_ref.where('utype', '==', 'user').get()
@@ -169,15 +189,20 @@ var appRouter = function (app) {
                 res.status(200).send({ status: "success", data: JSON.stringify(lstClient), message: "Data load successfully" });
 
             }
-            , function (error) {
-                // Something went wrong.
-                console.error(error);
-                res.status(400).send({ "status": "error", "message": "Data load fail" });
-            });
+                , function (error) {
+                    // Something went wrong.
+                    console.error(error);
+                    res.status(400).send({ "status": "error", "message": "Data load fail" });
+                });
     });
 
     //get client and user by Id
     app.get('/getClientById', function (req, res) {
+        var sess = req.session.email;
+        if (!sess) {
+            res.status(400).send({ "status": "Error", data: "login", "message": "You can not allow this request with login" });
+        }
+
         var result = false;
 
         var users_ref = db.collection("users");
@@ -195,17 +220,19 @@ var appRouter = function (app) {
                 res.status(200).send({ status: "success", data: JSON.stringify(lstClient), message: "Data get successfully" });
 
             }
-            , function (error) {
-                // Something went wrong.
-                console.error(error);
-                res.status(400).send({ "status": "error", "message": "Data load fail" });
-            });
+                , function (error) {
+                    // Something went wrong.
+                    console.error(error);
+                    res.status(400).send({ "status": "error", "message": "Data load fail" });
+                });
     });
 
     //Edit client and user by Id
     app.post('/EditClient', function (req, res) {
-
-        console.log(req.body);
+        var sess = req.session.email;
+        if (!sess) {
+            res.status(400).send({ "status": "Error", data: "login", "message": "You can not allow this request with login" });
+        }
         var Clients_ref = db.collection("users");
         if (!req.body.firstName) { req.body.firstName = ""; }
         if (!req.body.lastName) { req.body.lastName = ""; }
@@ -245,7 +272,10 @@ var appRouter = function (app) {
 
     //Add Activity
     app.post('/AddActivitys', function (req, res) {
-        console.log(req.body);
+        var sess = req.session.email;
+        if (!sess) {
+            res.status(400).send({ "status": "Error", data: "login", "message": "You can not allow this request with login" });
+        }
         var Activitys_ref = db.collection("activity");
         if (!req.body.status) { req.body.status = ""; }
         if (!req.body.clientId) { req.body.clientId = ""; }
@@ -267,6 +297,10 @@ var appRouter = function (app) {
 
     //get all Activity 
     app.get('/get_All_Activity', function (req, res) {
+        var sess = req.session.email;
+        if (!sess) {
+            res.status(400).send({ "status": "Error", data: "login", "message": "You can not allow this request with login" });
+        }
         var result = false;
         var users_ref = db.collection("activity");
         var query = users_ref.get()
@@ -282,16 +316,19 @@ var appRouter = function (app) {
                 res.status(200).send({ status: "success", data: JSON.stringify(lstActivity), message: "Data load successfully" });
 
             }
-            , function (error) {
-                // Something went wrong.
-                console.error(error);
-                res.status(400).send({ "status": "error", "message": "Data load fail" });
-            });
+                , function (error) {
+                    // Something went wrong.
+                    console.error(error);
+                    res.status(400).send({ "status": "error", "message": "Data load fail" });
+                });
     });
 
     //get Activity by Id
     app.get('/getActivityById', function (req, res) {
-        console.log(req.query.id);
+        var sess = req.session.email;
+        if (!sess) {
+            res.status(400).send({ "status": "Error", data: "login", "message": "You can not allow this request with login" });
+        }
         var result = false;
 
         var users_ref = db.collection("activity");
@@ -310,8 +347,10 @@ var appRouter = function (app) {
     });
 
     app.post('/EditActivitys', function (req, res) {
-
-        console.log(req.body);
+        var sess = req.session.email;
+        if (!sess) {
+            res.status(400).send({ "status": "Error", data: "login", "message": "You can not allow this request with login" });
+        }
         var Activity_ref = db.collection("activity");
         if (!req.body.status) { req.body.status = ""; }
         if (!req.body.clientId) { req.body.clientId = ""; }
@@ -335,8 +374,10 @@ var appRouter = function (app) {
     });
 
     app.post('/DeletActivitys', function (req, res) {
-
-        console.log(req.body);
+        var sess = req.session.email;
+        if (!sess) {
+            res.status(400).send({ "status": "Error", data: "login", "message": "You can not allow this request with login" });
+        }
         var Activity_ref = db.collection("activity").doc(req.body.id).delete();
 
         res.status(200).send({ "status": "success", "message": "Activity data Deleted" });
@@ -344,7 +385,10 @@ var appRouter = function (app) {
 
     //Add Cotrancts
     app.post('/AddContracts', function (req, res) {
-        console.log(req.body);
+        var sess = req.session.email;
+        if (!sess) {
+            res.status(400).send({ "status": "Error", data: "login", "message": "You can not allow this request with login" });
+        }
         var Activitys_ref = db.collection("Contracts");
 
         if (!req.body.clientId) { req.body.clientId = ""; }
@@ -366,6 +410,10 @@ var appRouter = function (app) {
 
     //get all Activity 
     app.get('/get_All_Contracts', function (req, res) {
+        var sess = req.session.email;
+        if (!sess) {
+            res.status(400).send({ "status": "Error", data: "login", "message": "You can not allow this request with login" });
+        }
         var result = false;
         var users_ref = db.collection("Contracts");
         var query = users_ref.get()
@@ -381,16 +429,19 @@ var appRouter = function (app) {
                 res.status(200).send({ status: "success", data: JSON.stringify(lstContract), message: "Data load successfully" });
 
             }
-            , function (error) {
-                // Something went wrong.
-                console.error(error);
-                res.status(400).send({ "status": "error", "message": "Data load fail" });
-            });
+                , function (error) {
+                    // Something went wrong.
+                    console.error(error);
+                    res.status(400).send({ "status": "error", "message": "Data load fail" });
+                });
     });
 
     //get Activity by Id
     app.get('/getContractsById', function (req, res) {
-        console.log(req.query.id);
+        var sess = req.session.email;
+        if (!sess) {
+            res.status(400).send({ "status": "Error", data: "login", "message": "You can not allow this request with login" });
+        }
         var result = false;
         var contact_info_ref = db.collection("Contracts").doc(req.query.id);
 
@@ -407,8 +458,10 @@ var appRouter = function (app) {
     });
 
     app.post('/EditContracts', function (req, res) {
-
-        console.log(req.body);
+        var sess = req.session.email;
+        if (!sess) {
+            res.status(400).send({ "status": "Error", data: "login", "message": "You can not allow this request with login" });
+        }
         var Activity_ref = db.collection("Contracts");
 
         if (!req.body.clientId) { req.body.clientId = ""; }
@@ -429,8 +482,10 @@ var appRouter = function (app) {
     });
 
     app.post('/DeletContracts', function (req, res) {
-
-        console.log(req.body);
+        var sess = req.session.email;
+        if (!sess) {
+            res.status(400).send({ "status": "Error", data: "login", "message": "You can not allow this request with login" });
+        }
         var Activity_ref = db.collection("Contracts").doc(req.body.id).delete();
 
         res.status(200).send({ "status": "success", "message": "Contracts data Deleted" });
@@ -442,7 +497,10 @@ var appRouter = function (app) {
 
     //get client and user by Id
     app.get('/getAllContractAssignByAdmin', function (req, res) {
-        var result = false;
+        var sess = req.session.email;
+        if (!sess) {
+            res.status(400).send({ "status": "Error", data: "login", "message": "You can not allow this request with login" });
+        }
         var result = false;
         var users_ref = db.collection("Contracts");
         var query = users_ref.where('clientId', '==', req.query.id).get()
@@ -458,17 +516,20 @@ var appRouter = function (app) {
                 res.status(200).send({ status: "success", data: JSON.stringify(lstContracts), message: "Data load successfully" });
 
             }
-            , function (error) {
-                // Something went wrong.
-                console.error(error);
-                res.status(400).send({ "status": "error", "message": "Data load fail" });
-            });
+                , function (error) {
+                    // Something went wrong.
+                    console.error(error);
+                    res.status(400).send({ "status": "error", "message": "Data load fail" });
+                });
 
     });
 
     //get UserProfile Data
     app.get('/getUserParticularUser', function (req, res) {
-        var result = false;
+        var sess = req.session.email;
+        if (!sess) {
+            res.status(400).send({ "status": "Error", data: "login", "message": "You can not allow this request with login" });
+        }
         var result = false;
 
         var users_ref = db.collection("users").doc(req.query.id);
@@ -489,7 +550,10 @@ var appRouter = function (app) {
 
     //Add Account
     app.post('/AddAccounts', function (req, res) {
-        console.log(req.body);
+        var sess = req.session.email;
+        if (!sess) {
+            res.status(400).send({ "status": "Error", data: "login", "message": "You can not allow this request with login" });
+        }
         var Activitys_ref = db.collection("Accounts");
 
         if (!req.body.clientId) { req.body.clientId = ""; }
@@ -511,6 +575,10 @@ var appRouter = function (app) {
 
     //get all Account 
     app.get('/get_All_Accounts', function (req, res) {
+        var sess = req.session.email;
+        if (!sess) {
+            res.status(400).send({ "status": "Error", data: "login", "message": "You can not allow this request with login" });
+        }
         var result = false;
         var users_ref = db.collection("Accounts");
         var query = users_ref.get()
@@ -526,16 +594,19 @@ var appRouter = function (app) {
                 res.status(200).send({ status: "success", data: JSON.stringify(lstContract), message: "Data load successfully" });
 
             }
-            , function (error) {
-                // Something went wrong.
-                console.error(error);
-                res.status(400).send({ "status": "error", "message": "Data load fail" });
-            });
+                , function (error) {
+                    // Something went wrong.
+                    console.error(error);
+                    res.status(400).send({ "status": "error", "message": "Data load fail" });
+                });
     });
 
     //get Account by Id
     app.get('/getAccountsById', function (req, res) {
-        console.log(req.query.id);
+        var sess = req.session.email;
+        if (!sess) {
+            res.status(400).send({ "status": "Error", data: "login", "message": "You can not allow this request with login" });
+        }
         var result = false;
         var contact_info_ref = db.collection("Accounts").doc(req.query.id);
 
@@ -553,8 +624,10 @@ var appRouter = function (app) {
 
     //Edit Account
     app.post('/EditAccounts', function (req, res) {
-
-        console.log(req.body);
+        var sess = req.session.email;
+        if (!sess) {
+            res.status(400).send({ "status": "Error", data: "login", "message": "You can not allow this request with login" });
+        }
         var Activity_ref = db.collection("Accounts");
 
         if (!req.body.clientId) { req.body.clientId = ""; }
@@ -576,7 +649,10 @@ var appRouter = function (app) {
 
     //get client and user by Id
     app.get('/getAllAccountAssignByAdmin', function (req, res) {
-        
+        var sess = req.session.email;
+        if (!sess) {
+            res.status(400).send({ "status": "Error", data: "login", "message": "You can not allow this request with login" });
+        }
         var result = false;
         var users_ref = db.collection("Accounts");
         var query = users_ref.where('clientId', '==', req.query.id).get()
@@ -592,11 +668,11 @@ var appRouter = function (app) {
                 res.status(200).send({ status: "success", data: JSON.stringify(lstContracts), message: "Data load successfully" });
 
             }
-            , function (error) {
-                // Something went wrong.
-                console.error(error);
-                res.status(400).send({ "status": "error", "message": "Data load fail" });
-            });
+                , function (error) {
+                    // Something went wrong.
+                    console.error(error);
+                    res.status(400).send({ "status": "error", "message": "Data load fail" });
+                });
 
     });
 }

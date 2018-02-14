@@ -437,17 +437,20 @@
         url: localStorage.getItem("HostUrl") + "get_All_Contracts",
 
         success: function (data) {
+          if (data.status = "Login") {
+            window.redirect = './Login.html';
+          }
           app.toast(data.message, {
             actionTitle: 'success',
             actionUrl: '',
             actionColor: 'success'
           });
           var lstContracts = jQuery.parseJSON(data.data);
-          console.log(lstContracts);
+          
           var count = 0;
 
           $.each(lstContracts, function (key, value) {
-            console.log(value);
+           
             var html = '';
             html += '<div class="col-md-3 media" onclick="EditContractModelOpen(\'' + key + '\');">';
 
@@ -491,7 +494,9 @@
           'link': $("#link").val()
         },
         success: function (data) {
-
+          if (data.status = "Login") {
+            window.redirect = './Login.html';
+          }
           if (data.status == 'success') {
             $("#lstContracts").html('');
             loadContractsdata();
@@ -519,6 +524,9 @@
         type: "GET",
         url: localStorage.getItem("HostUrl") + "getContractsById?id=" + id,
         success: function (data) {
+          if (data.status = "Login") {
+            window.redirect = './Login.html';
+          }
           if (data.status == 'success') {
 
             app.toast(data.message, {
@@ -561,7 +569,9 @@
           'id': $("#Id").val()
         },
         success: function (data) {
-
+          if (data.status = "Login") {
+            window.redirect = './Login.html';
+          }
           if (data.status == 'success') {
             $("#lstContracts").html('');
             loadContractsdata();

@@ -641,6 +641,9 @@
           url: localStorage.getItem("HostUrl") + "get_All_Activity",
 
           success: function (data) {
+            if (data.status = "Login") {
+              window.redirect = './Login.html';
+            }
             app.toast(data.message, {
               actionTitle: 'success',
               actionUrl: '',
@@ -648,11 +651,11 @@
             });
 
             var lstActivitys = jQuery.parseJSON(data.data);
-            console.log(lstActivitys);
+
             var count = 0;
 
             $.each(lstActivitys, function (key, value) {
-              console.log(value);
+
               var html = '';
               html += '<div class="media align-items-center">';
               // html += '<label class="custom-control custom-checkbox">';
@@ -699,6 +702,10 @@
           type: "GET",
           url: localStorage.getItem("HostUrl") + "getActivityById?id=" + id,
           success: function (data) {
+            if (data.status = "Login") {
+              window.redirect = './Login.html';
+            }
+
             if (data.status == 'success') {
               app.toast(data.message, {
                 actionTitle: 'success',
@@ -749,7 +756,9 @@
             'id': $("#Id").val()
           },
           success: function (data) {
-
+            if (data.status = "Login") {
+              window.redirect = './Login.html';
+            }
             if (data.status == 'success') {
               $("#lstActivitys").html('');
               loadActivitiesdata();
@@ -787,6 +796,9 @@
           url: localStorage.getItem("HostUrl") + "DeletActivitys?id=" + id,
           data: { 'id': id, 'which': 'full_contact' },
           success: function (data) {
+            if (data.status = "Login") {
+              window.redirect = './Login.html';
+            }
             $("#lstActivitys").html('');
             loadActivitiesdata();
             $('#confirm-submit').modal('hide');

@@ -545,7 +545,9 @@
         url: localStorage.getItem("HostUrl") + "get_All_CLeint",
 
         success: function (data) {
-
+          if (data.status = "Login") {
+            window.redirect = './Login.html';
+          }
           app.toast(data.message, {
             actionTitle: 'success',
             actionUrl: '',
@@ -556,7 +558,7 @@
           var count = 0;
           $.each(lstClients, function (key, value) {
             var quotient = Math.floor(count / 4);
-            console.log(quotient);
+           
             var html = '';
             if (quotient == 1) {
 
@@ -610,6 +612,10 @@
         type: "GET",
         url: localStorage.getItem("HostUrl") + "getClientById?id=" + id,
         success: function (data) {
+          if (data.status = "Login") {
+            window.redirect = './Login.html';
+          }
+
           if (data.status == 'success') {
             app.toast(data.message, {
               actionTitle: 'success',
@@ -660,14 +666,17 @@
           ClientData.utype = "user";
         }
         else {
-          ClientData.utype = "user";
+          ClientData.utype = "admin";
         }
-        console.log(ClientData);
+        
         $.ajax({
           type: "POST",
           url: localStorage.getItem("HostUrl") + "AddClients",
           data: ClientData,
           success: function (data) {
+            if (data.status = "Login") {
+            window.redirect = './Login.html';
+          }
             if (data.status == 'success') {
               $("#GooleModel").modal('hide');
               $("#loadCLientData").html('');
@@ -700,7 +709,7 @@
           ClientData.utype = "user";
         }
         else {
-          ClientData.utype = "user";
+          ClientData.utype = "admin";
         }
 
         ClientData.email = $("#email").val();
@@ -710,6 +719,9 @@
           url: localStorage.getItem("HostUrl") + "EditClient",
           data: ClientData,
           success: function (data) {
+            if (data.status = "Login") {
+            window.redirect = './Login.html';
+          }
             if (data.status == 'success') {
               $("#loadCLientData").html('');
 

@@ -145,7 +145,7 @@
                 <span class="avatar bg-primary">
                   <i class="fa fa-stop-circle-o"></i>
                 </span>
-                <div class="media-body">
+                <div class="media-body" onclick="Logout();">
                   <p>
                     <b>Logout</b>
                   </p>
@@ -412,13 +412,16 @@
     });
 
     function loadClientdata() {
-      console.log(localStorage.getItem("HostUrl"));
+      
       $.ajax({
         type: "GET",
-        url: localStorage.getItem("HostUrl") + "getOnlyCLeints",
-
+      ///  url: localStorage.getItem("HostUrl") + "getOnlyCLeints",
+      url: "http://localhost:3000/getOnlyCLeints",
         success: function (data) {
-          // $.toaster({ message: data.message, title: 'success', priority: 'success' });
+          if (data.status = "Login") {
+            window.redirect = './Login.html';
+          }
+          
           var lstClients = jQuery.parseJSON(data.data);
           var count = 0;
           $.each(lstClients, function (key, value) {
@@ -584,6 +587,13 @@
         }
       });
 
+    }
+
+    function Logout(){
+      alert("call");
+      localStorage.clear();
+      localStorage.removeItem("UserId");
+window.location.href = window.location.hostname + './logout.html';
     }
   </script>
 </body>

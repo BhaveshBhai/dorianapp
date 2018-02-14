@@ -2,13 +2,12 @@
 <html lang="en">
 
 <head>
-<link rel="shortcut icon" href="./favicon.ico">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="Responsive admin dashboard and web application ui kit. ">
   <meta name="keywords" content="login, signin">
 
-  <title>Login Page 1 &mdash; TheAdmin</title>
+  <title>Login Page</title>
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,300i" rel="stylesheet">
@@ -96,6 +95,7 @@
 
   <script type="text/javascript">
     $(document).ready(function () {
+      localStorage.setItem("HostUrl", "http://localhost:3000/");
       $.fn.serializeObject = function () {
         var o = {};
         var a = this.serializeArray();
@@ -119,14 +119,13 @@
         e.preventDefault();
 
         var formData = $(this).serializeObject();
-        console.log(formData);
         $.ajax({
           type: "POST",
           url: localStorage.getItem("HostUrl") + "login",
           data: formData,
 
           success: function (data) {
-
+alert(data.data);
             if (data.status == 'success') {
               app.toast(data.message, {
                 actionTitle: 'success',
@@ -135,15 +134,17 @@
               });
 
               localStorage.setItem("UserId", data.data.email);
-              localStorage.setItem("HostUrl", "http://localhost:3000/");
-
+             
               if (data.data.type == "admin") {
 
-                window.location.href = window.location.host + "Admin/index.html"
+                // window.location.href = window.location.host + "Admin/index.html"
+
+                window.location.href = "./Admin/index.html"
               }
               else {
 
-                window.location.href = window.location.host + "Users/index.html"
+                // window.location.href = window.location.host + "Users/index.html"
+                window.location.href = "./Users/index.html"
               }
 
             }
