@@ -29,7 +29,6 @@ var routes = require("./routes/routes.js")(app);
 //console.log("Listening on Port 3000");
 //});
 
-const express = require('express')
 const path = require('path')
 const PORT = process.env.PORT || 3000
 
