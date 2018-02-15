@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 var routes = require("./routes/routes.js")(app);
 
 app.use('/', express.static(__dirname + '/public/'));
-
-var server = app.listen(3000, function () {
-    console.log("Listening on port %s...", server.address().port);
-});
+app.listen(process.env.PORT || 5000);
+// var server = app.listen(3000, function () {
+//     console.log("Listening on port %s...", server.address().port);
+// });
