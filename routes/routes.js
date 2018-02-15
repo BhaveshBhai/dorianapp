@@ -13,7 +13,7 @@ var appRouter = function (app) {
     //     cookie: { secure: true }
     //   }))
 
-    var sessData;
+    var sess;
 
     var serviceAccount = require("../serviceAccountKey.json");
 
@@ -24,9 +24,9 @@ var appRouter = function (app) {
     var db = admin.firestore();
 
     app.get("/", function (req, res) {
-        var sess = req.session.email;
+        sess = req.session.email;
         sess.email = null;
-        res.send('Returning with some text');
+        res.send('Returning with some text', sess);
     });
 
     // User Regisration 
@@ -73,10 +73,9 @@ var appRouter = function (app) {
             .then(snapshot => {
                 snapshot.forEach(doc => {
                     var result = true;
-                    sessData = req.session;
-                    sessData.email = doc.data().email;
+                    sess = req.session;
+                    sess.email = doc.data().email;
 
-                    console.log(sessData);
                     var returnResult = {
                         type: doc.data().utype,
                         email: doc.data().email
@@ -90,7 +89,7 @@ var appRouter = function (app) {
 
     //Add client and users
     app.post('/AddClients', function (req, res) {
-        var sess = req.session.email;
+        sess = req.session.email;
         
         if (!sess) {
             res.status(400).send({ "status": "Error", data: "Login", "message": "You can not allow this request with login" });
@@ -144,7 +143,7 @@ var appRouter = function (app) {
 
     //get all client and user 
     app.get('/get_All_CLeint', function (req, res) {
-        var sess = req.session.email;
+        sess = req.session.email;
         if (!sess) {
             res.status(400).send({ "status": "Error", data: "Login", "message": "You can not allow this request with login" });
         }
@@ -173,7 +172,7 @@ var appRouter = function (app) {
     //get all client 
     app.get('/getOnlyCLeints', function (req, res) {
         var result = false;
-        var sess = req.session.email;
+        sess = req.session.email;
         console.log(sess);
         if (!sess) {
             result = true;
@@ -203,7 +202,7 @@ var appRouter = function (app) {
 
     //get client and user by Id
     app.get('/getClientById', function (req, res) {
-        var sess = req.session.email;
+        sess = req.session.email;
         if (!sess) {
             res.status(400).send({ "status": "Error", data: "Login", "message": "You can not allow this request with login" });
         }
@@ -234,7 +233,7 @@ var appRouter = function (app) {
 
     //Edit client and user by Id
     app.post('/EditClient', function (req, res) {
-        var sess = req.session.email;
+        sess = req.session.email;
         if (!sess) {
             res.status(400).send({ "status": "Error", data: "Login", "message": "You can not allow this request with login" });
         }
@@ -277,7 +276,7 @@ var appRouter = function (app) {
 
     //Add Activity
     app.post('/AddActivitys', function (req, res) {
-        var sess = req.session.email;
+        sess = req.session.email;
         if (!sess) {
             res.status(400).send({ "status": "Error", data: "Login", "message": "You can not allow this request with login" });
         }
@@ -302,7 +301,7 @@ var appRouter = function (app) {
 
     //get all Activity 
     app.get('/get_All_Activity', function (req, res) {
-        var sess = req.session.email;
+        sess = req.session.email;
         if (!sess) {
             res.status(400).send({ "status": "Error", data: "Login", "message": "You can not allow this request with login" });
         }
@@ -330,7 +329,7 @@ var appRouter = function (app) {
 
     //get Activity by Id
     app.get('/getActivityById', function (req, res) {
-        var sess = req.session.email;
+        sess = req.session.email;
         if (!sess) {
             res.status(400).send({ "status": "Error", data: "Login", "message": "You can not allow this request with login" });
         }
@@ -352,7 +351,7 @@ var appRouter = function (app) {
     });
 
     app.post('/EditActivitys', function (req, res) {
-        var sess = req.session.email;
+        sess = req.session.email;
         if (!sess) {
             res.status(400).send({ "status": "Error", data: "Login", "message": "You can not allow this request with login" });
         }
@@ -379,7 +378,7 @@ var appRouter = function (app) {
     });
 
     app.post('/DeletActivitys', function (req, res) {
-        var sess = req.session.email;
+        sess = req.session.email;
         if (!sess) {
             res.status(400).send({ "status": "Error", data: "Login", "message": "You can not allow this request with login" });
         }
@@ -390,7 +389,7 @@ var appRouter = function (app) {
 
     //Add Cotrancts
     app.post('/AddContracts', function (req, res) {
-        var sess = req.session.email;
+        sess = req.session.email;
         if (!sess) {
             res.status(400).send({ "status": "Error", data: "Login", "message": "You can not allow this request with login" });
         }
@@ -415,7 +414,7 @@ var appRouter = function (app) {
 
     //get all Activity 
     app.get('/get_All_Contracts', function (req, res) {
-        var sess = req.session.email;
+        sess = req.session.email;
         if (!sess) {
             res.status(400).send({ "status": "Error", data: "Login", "message": "You can not allow this request with login" });
         }
@@ -443,7 +442,7 @@ var appRouter = function (app) {
 
     //get Activity by Id
     app.get('/getContractsById', function (req, res) {
-        var sess = req.session.email;
+        sess = req.session.email;
         if (!sess) {
             res.status(400).send({ "status": "Error", data: "Login", "message": "You can not allow this request with login" });
         }
@@ -463,7 +462,7 @@ var appRouter = function (app) {
     });
 
     app.post('/EditContracts', function (req, res) {
-        var sess = req.session.email;
+        sess = req.session.email;
         if (!sess) {
             res.status(400).send({ "status": "Error", data: "Login", "message": "You can not allow this request with login" });
         }
@@ -487,7 +486,7 @@ var appRouter = function (app) {
     });
 
     app.post('/DeletContracts', function (req, res) {
-        var sess = req.session.email;
+        sess = req.session.email;
         if (!sess) {
             res.status(400).send({ "status": "Error", data: "Login", "message": "You can not allow this request with login" });
         }
@@ -502,7 +501,7 @@ var appRouter = function (app) {
 
     //get client and user by Id
     app.get('/getAllContractAssignByAdmin', function (req, res) {
-        var sess = req.session.email;
+        sess = req.session.email;
         if (!sess) {
             res.status(400).send({ "status": "Error", data: "Login", "message": "You can not allow this request with login" });
         }
@@ -531,7 +530,7 @@ var appRouter = function (app) {
 
     //get UserProfile Data
     app.get('/getUserParticularUser', function (req, res) {
-        var sess = req.session.email;
+        sess = req.session.email;
         if (!sess) {
             res.status(400).send({ "status": "Error", data: "Login", "message": "You can not allow this request with login" });
         }
@@ -555,7 +554,7 @@ var appRouter = function (app) {
 
     //Add Account
     app.post('/AddAccounts', function (req, res) {
-        var sess = req.session.email;
+        sess = req.session.email;
         if (!sess) {
             res.status(400).send({ "status": "Error", data: "Login", "message": "You can not allow this request with login" });
         }
@@ -580,7 +579,7 @@ var appRouter = function (app) {
 
     //get all Account 
     app.get('/get_All_Accounts', function (req, res) {
-        var sess = req.session.email;
+        sess = req.session.email;
         if (!sess) {
             res.status(400).send({ "status": "Error", data: "Login", "message": "You can not allow this request with login" });
         }
@@ -608,7 +607,7 @@ var appRouter = function (app) {
 
     //get Account by Id
     app.get('/getAccountsById', function (req, res) {
-        var sess = req.session.email;
+        sess = req.session.email;
         if (!sess) {
             res.status(400).send({ "status": "Error", data: "Login", "message": "You can not allow this request with login" });
         }
@@ -629,7 +628,7 @@ var appRouter = function (app) {
 
     //Edit Account
     app.post('/EditAccounts', function (req, res) {
-        var sess = req.session.email;
+        sess = req.session.email;
         if (!sess) {
             res.status(400).send({ "status": "Error", data: "Login", "message": "You can not allow this request with login" });
         }
@@ -654,7 +653,7 @@ var appRouter = function (app) {
 
     //get client and user by Id
     app.get('/getAllAccountAssignByAdmin', function (req, res) {
-        var sess = req.session.email;
+        sess = req.session.email;
         if (!sess) {
             res.status(400).send({ "status": "Error", data: "Login", "message": "You can not allow this request with login" });
         }
