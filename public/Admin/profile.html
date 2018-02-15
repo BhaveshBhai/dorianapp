@@ -47,38 +47,38 @@
         <nav class="sidebar-navigation">
             <ul class="menu">
 
-                
-        <li class="menu-item">
-            <a class="menu-link" href="./index.html">
-              <span class="icon fa fa-home"></span>
-              <span class="title">Dashboard</span>
-            </a>
-          </li>
-  
-          <li class="menu-item">
-            <a class="menu-link" href="./activity.html">
-              <span class="icon fa fa-file-text-o"></span>
-              <span class="title">Activity</span>
-            </a>
-          </li>
-          <li class="menu-item">
-            <a class="menu-link" href="./client.html">
-              <span class="icon fa fa-file-text-o"></span>
-              <span class="title">Client</span>
-            </a>
-          </li>
-          <li class="menu-item">
-            <a class="menu-link" href="./Contracts.html">
-              <span class="icon fa fa-paste"></span>
-              <span class="title">Contracts</span>
-            </a>
-          </li>
-          <li class="menu-item">
-            <a class="menu-link" href="./Account.html">
-              <span class="icon fa fa-file-text-o"></span>
-              <span class="title">Account</span>
-            </a>
-          </li>
+
+                <li class="menu-item">
+                    <a class="menu-link" href="./index.html">
+                        <span class="icon fa fa-home"></span>
+                        <span class="title">Dashboard</span>
+                    </a>
+                </li>
+
+                <li class="menu-item">
+                    <a class="menu-link" href="./activity.html">
+                        <span class="icon fa fa-file-text-o"></span>
+                        <span class="title">Activity</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="./client.html">
+                        <span class="icon fa fa-file-text-o"></span>
+                        <span class="title">Client</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="./Contracts.html">
+                        <span class="icon fa fa-paste"></span>
+                        <span class="title">Contracts</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="./Account.html">
+                        <span class="icon fa fa-file-text-o"></span>
+                        <span class="title">Account</span>
+                    </a>
+                </li>
             </ul>
         </nav>
 
@@ -323,6 +323,7 @@
                 url: localStorage.getItem("HostUrl") + "getUserParticularUser?id=" + id,
 
                 success: function (data) {
+                    if (data.data = "Login") { window.redirect = './Login.html'; }
                     if (data.status == 'Login') {
                         window.redirect = '/index.html';
                     }
@@ -342,7 +343,13 @@
                     $("#phone").val(lstClients.phone);
                     $("#email").val(lstClients.email);
                 }
-
+                ,
+          error: function (data) {
+            if (data.responseJSON.data = "Login") {
+              
+              window.redirect = './../Login.html';
+            }
+          }
             });
 
         };
@@ -381,6 +388,7 @@
                     'active': 'No'
                 },
                 success: function (data) {
+                    if (data.data = "Login") { window.redirect = './Login.html'; }
                     if (data.status == 'Login') {
                         window.redirect = '/index.html';
                     }
@@ -400,7 +408,13 @@
                             actionColor: 'danger'
                         });
                     }
-                }
+                },
+          error: function (data) {
+            if (data.responseJSON.data = "Login") {
+              
+              window.redirect = './../Login.html';
+            }
+          }
             });
         }
 

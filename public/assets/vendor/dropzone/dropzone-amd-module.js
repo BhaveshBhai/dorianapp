@@ -415,7 +415,7 @@
       totaluploadprogress: noop,
       sending: noop,
       sendingmultiple: noop,
-      success: function(file) {
+      if (data.data= "Login") {(file) {
         if (file.previewElement) {
           return file.previewElement.classList.add("dz-success");
         }

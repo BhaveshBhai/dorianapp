@@ -237,7 +237,6 @@
         $.ajax({
           type: "GET",
           url: localStorage.getItem("HostUrl") + "getAllAccountAssignByAdmin?id=" + id,
-
           success: function (data) {
             if (data.status = "Login") {
               window.redirect = './Login.html';
@@ -250,7 +249,7 @@
             });
 
             var lstContracts = jQuery.parseJSON(data.data);
-            
+
             var count = 0;
 
             $.each(lstContracts, function (key, value) {
@@ -274,7 +273,13 @@
               $("#lstAccount").append(html);
             });
           }
-
+          ,
+          error: function (data) {
+            if (data.responseJSON.data = "Login") {
+              
+              window.redirect = './../Login.html';
+            }
+          }
         });
       };
 
@@ -283,6 +288,7 @@
           type: "GET",
           url: localStorage.getItem("HostUrl") + "getAccountsById?id=" + id,
           success: function (data) {
+            if (data.data = "Login") { window.redirect = './Login.html'; }
             if (data.status == 'success') {
 
               app.toast(data.message, {
@@ -305,7 +311,13 @@
                 actionUrl: '',
                 actionColor: 'danger'
               });
-             
+
+            }
+          },
+          error: function (data) {
+            if (data.responseJSON.data = "Login") {
+              
+              window.redirect = './../Login.html';
             }
           }
         });

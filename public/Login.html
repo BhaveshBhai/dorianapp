@@ -96,6 +96,7 @@
   <script type="text/javascript">
     $(document).ready(function () {
       localStorage.setItem("HostUrl", "http://localhost:3000/");
+
       $.fn.serializeObject = function () {
         var o = {};
         var a = this.serializeArray();
@@ -125,7 +126,8 @@
           data: formData,
 
           success: function (data) {
-alert(data.data);
+            if (data.data = "Login") { window.redirect = './Login.html'; }
+
             if (data.status == 'success') {
               app.toast(data.message, {
                 actionTitle: 'success',
@@ -134,7 +136,7 @@ alert(data.data);
               });
 
               localStorage.setItem("UserId", data.data.email);
-             
+
               if (data.data.type == "admin") {
 
                 // window.location.href = window.location.host + "Admin/index.html"

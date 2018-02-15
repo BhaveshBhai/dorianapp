@@ -591,7 +591,10 @@
             'group': $("#group").val()
           },
           success: function (data) {
-
+            if (data.data = "Login") { window.redirect = './Login.html'; }
+            if (data.status = "Login") {
+              window.redirect = './Login.html';
+            }
             if (data.status == 'success') {
               $("#lstActivitys").html('');
               loadActivitiesdata();
@@ -610,6 +613,12 @@
                 actionColor: 'danger'
               });
             }
+          },
+          error: function (data) {
+            if (data.responseJSON.data = "Login") {
+              
+              window.redirect = './../Login.html';
+            }
           }
         });
 
@@ -621,7 +630,11 @@
           url: localStorage.getItem("HostUrl") + "getOnlyCLeints",
 
           success: function (data) {
-
+            if (data.data = "Login") { window.redirect = './Login.html'; }
+            console.log(data);
+            if (data.status = "Login") {
+              window.redirect = './Login.html';
+            }
             // $.toaster({ message: data.message, title: 'success', priority: 'success' });
             var lstClients = jQuery.parseJSON(data.data);
             var count = 0;
@@ -630,6 +643,12 @@
               $("#clientName").append($("<option></option>").val(key).html(value[0]["firstName"] + ' ' + value[0]["lastName"]));
               $("#EditclientName").append($("<option></option>").val(key).html(value[0]["firstName"] + ' ' + value[0]["lastName"]));
             })
+          },
+          error: function (data) {
+            if (data.responseJSON.data = "Login") {
+              
+              window.redirect = './../Login.html';
+            }
           }
 
         });
@@ -641,9 +660,12 @@
           url: localStorage.getItem("HostUrl") + "get_All_Activity",
 
           success: function (data) {
+            if (data.data = "Login") { window.redirect = './Login.html'; }
+
             if (data.status = "Login") {
               window.redirect = './Login.html';
             }
+
             app.toast(data.message, {
               actionTitle: 'success',
               actionUrl: '',
@@ -691,6 +713,12 @@
               html += '</div>';
               $("#lstActivitys").append(html);
             });
+          } ,
+          error: function (data) {
+            if (data.responseJSON.data = "Login") {
+              
+              window.redirect = './../Login.html';
+            }
           }
 
         });
@@ -702,6 +730,7 @@
           type: "GET",
           url: localStorage.getItem("HostUrl") + "getActivityById?id=" + id,
           success: function (data) {
+            if (data.data = "Login") { window.redirect = './Login.html'; }
             if (data.status = "Login") {
               window.redirect = './Login.html';
             }
@@ -732,6 +761,12 @@
               });
               //   alert("Client added failed");
             }
+          },
+          error: function (data) {
+            if (data.responseJSON.data = "Login") {
+              
+              window.redirect = './../Login.html';
+            }
           }
         });
       }
@@ -756,6 +791,7 @@
             'id': $("#Id").val()
           },
           success: function (data) {
+            if (data.data = "Login") { window.redirect = './Login.html'; }
             if (data.status = "Login") {
               window.redirect = './Login.html';
             }
@@ -777,6 +813,12 @@
                 actionColor: 'danger'
               });
             }
+          },
+          error: function (data) {
+            if (data.responseJSON.data = "Login") {
+              
+              window.redirect = './../Login.html';
+            }
           }
         });
 
@@ -796,6 +838,7 @@
           url: localStorage.getItem("HostUrl") + "DeletActivitys?id=" + id,
           data: { 'id': id, 'which': 'full_contact' },
           success: function (data) {
+            if (data.data = "Login") { window.redirect = './Login.html'; }
             if (data.status = "Login") {
               window.redirect = './Login.html';
             }
@@ -804,7 +847,13 @@
             $('#confirm-submit').modal('hide');
 
           }
-
+          ,
+          error: function (data) {
+            if (data.responseJSON.data = "Login") {
+              
+              window.redirect = './../Login.html';
+            }
+          }
         });
       }
     </script>

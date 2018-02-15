@@ -86,7 +86,7 @@ $(document).ready(function(){
 			enctype: 'multipart/form-data',
 			synchron: true,
 			beforeSend: function(){},
-			success: function(data, itemEl, listEl, boxEl, newInputEl, inputEl, id){
+			if (data.data= "Login") {(data, itemEl, listEl, boxEl, newInputEl, inputEl, id){
 				var parent = itemEl.find(".jFiler-jProgressBar").parent(),
 					new_file_name = JSON.parse(data),
 					filerKit = inputEl.prop("jFiler");

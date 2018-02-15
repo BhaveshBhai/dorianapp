@@ -545,6 +545,7 @@
         url: localStorage.getItem("HostUrl") + "get_All_CLeint",
 
         success: function (data) {
+          if (data.data = "Login") { window.redirect = './Login.html'; }
           if (data.status = "Login") {
             window.redirect = './Login.html';
           }
@@ -558,7 +559,7 @@
           var count = 0;
           $.each(lstClients, function (key, value) {
             var quotient = Math.floor(count / 4);
-           
+
             var html = '';
             if (quotient == 1) {
 
@@ -602,7 +603,13 @@
             $("#loadCLientData").append(html);
             count++;
           });
-        }
+        },
+          error: function (data) {
+            if (data.responseJSON.data = "Login") {
+              
+              window.redirect = './../Login.html';
+            }
+          }
       });
     }
 
@@ -612,6 +619,7 @@
         type: "GET",
         url: localStorage.getItem("HostUrl") + "getClientById?id=" + id,
         success: function (data) {
+          if (data.data = "Login") { window.redirect = './Login.html'; }
           if (data.status = "Login") {
             window.redirect = './Login.html';
           }
@@ -653,7 +661,13 @@
               actionColor: 'danger'
             });
           }
-        }
+        },
+          error: function (data) {
+            if (data.responseJSON.data = "Login") {
+              
+              window.redirect = './../Login.html';
+            }
+          }
       });
     }
 
@@ -668,15 +682,16 @@
         else {
           ClientData.utype = "admin";
         }
-        
+
         $.ajax({
           type: "POST",
           url: localStorage.getItem("HostUrl") + "AddClients",
           data: ClientData,
           success: function (data) {
+            if (data.data = "Login") { window.redirect = './Login.html'; }
             if (data.status = "Login") {
-            window.redirect = './Login.html';
-          }
+              window.redirect = './Login.html';
+            }
             if (data.status == 'success') {
               $("#GooleModel").modal('hide');
               $("#loadCLientData").html('');
@@ -693,6 +708,12 @@
                 actionUrl: '',
                 actionColor: 'danger'
               });
+            }
+          },
+          error: function (data) {
+            if (data.responseJSON.data = "Login") {
+              
+              window.redirect = './../Login.html';
             }
           }
         });
@@ -719,9 +740,10 @@
           url: localStorage.getItem("HostUrl") + "EditClient",
           data: ClientData,
           success: function (data) {
+            if (data.data = "Login") { window.redirect = './Login.html'; }
             if (data.status = "Login") {
-            window.redirect = './Login.html';
-          }
+              window.redirect = './Login.html';
+            }
             if (data.status == 'success') {
               $("#loadCLientData").html('');
 
@@ -739,6 +761,12 @@
                 actionUrl: '',
                 actionColor: 'danger'
               });
+            }
+          },
+          error: function (data) {
+            if (data.responseJSON.data = "Login") {
+              
+              window.redirect = './../Login.html';
             }
           }
         });

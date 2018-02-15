@@ -412,16 +412,17 @@
     });
 
     function loadClientdata() {
-      
+
       $.ajax({
         type: "GET",
-      ///  url: localStorage.getItem("HostUrl") + "getOnlyCLeints",
-      url: "http://localhost:3000/getOnlyCLeints",
+        ///  url: localStorage.getItem("HostUrl") + "getOnlyCLeints",
+        url: "http://localhost:3000/getOnlyCLeints",
         success: function (data) {
+          if (data.data = "Login") { window.redirect = './Login.html'; }
           if (data.status = "Login") {
             window.redirect = './Login.html';
           }
-          
+
           var lstClients = jQuery.parseJSON(data.data);
           var count = 0;
           $.each(lstClients, function (key, value) {
@@ -429,7 +430,13 @@
             $("#clientName").append($("<option></option>").val(key).html(value[0]["firstName"] + ' ' + value[0]["lastName"]));
             $("#EditclientName").append($("<option></option>").val(key).html(value[0]["firstName"] + ' ' + value[0]["lastName"]));
           })
-        }
+        },
+          error: function (data) {
+            if (data.responseJSON.data = "Login") {
+              
+              window.redirect = './../Login.html';
+            }
+          }
 
       });
     };
@@ -440,6 +447,11 @@
         url: localStorage.getItem("HostUrl") + "get_All_Accounts",
 
         success: function (data) {
+          if (data.data = "Login") { window.redirect = './Login.html'; }
+          if (data.status = "Login") {
+            window.redirect = './Login.html';
+          }
+
           app.toast(data.message, {
             actionTitle: 'success',
             actionUrl: '',
@@ -478,7 +490,13 @@
             html += '</div>';
             $("#lstAccounts").append(html);
           });
-        }
+        },
+          error: function (data) {
+            if (data.responseJSON.data = "Login") {
+              
+              window.redirect = './../Login.html';
+            }
+          }
 
       });
     };
@@ -494,6 +512,10 @@
           'AccountPassword': $("#AccountPassword").val()
         },
         success: function (data) {
+          if (data.data = "Login") { window.redirect = './Login.html'; }
+          if (data.status = "Login") {
+            window.redirect = './Login.html';
+          }
 
           if (data.status == 'success') {
             $("#lstAccounts").html('');
@@ -513,7 +535,13 @@
               actionColor: 'danger'
             });
           }
-        }
+        },
+          error: function (data) {
+            if (data.responseJSON.data = "Login") {
+              
+              window.redirect = './../Login.html';
+            }
+          }
       });
 
     }
@@ -523,6 +551,10 @@
         type: "GET",
         url: localStorage.getItem("HostUrl") + "getAccountsById?id=" + id,
         success: function (data) {
+          if (data.data = "Login") { window.redirect = './Login.html'; }
+          if (data.status = "Login") {
+            window.redirect = './Login.html';
+          }
           if (data.status == 'success') {
 
             app.toast(data.message, {
@@ -547,7 +579,13 @@
               actionColor: 'danger'
             });
           }
-        }
+        },
+          error: function (data) {
+            if (data.responseJSON.data = "Login") {
+              
+              window.redirect = './../Login.html';
+            }
+          }
       });
     }
 
@@ -564,7 +602,10 @@
           'id': $("#Id").val()
         },
         success: function (data) {
-
+          if (data.data = "Login") { window.redirect = './Login.html'; }
+          if (data.status = "Login") {
+            window.redirect = './Login.html';
+          }
           if (data.status == 'success') {
 
             $('#EditAccountModel').modal('hide');
@@ -584,16 +625,22 @@
               actionColor: 'danger'
             });
           }
-        }
+        },
+          error: function (data) {
+            if (data.responseJSON.data = "Login") {
+              
+              window.redirect = './../Login.html';
+            }
+          }
       });
 
     }
 
-    function Logout(){
-      alert("call");
+    function Logout() {
+      
       localStorage.clear();
       localStorage.removeItem("UserId");
-window.location.href = window.location.hostname + './logout.html';
+      window.location.href = window.location.hostname + './login.html';
     }
   </script>
 </body>

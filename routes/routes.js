@@ -13,7 +13,7 @@ var appRouter = function (app) {
     //     cookie: { secure: true }
     //   }))
 
-
+    var sessData;
 
     var serviceAccount = require("../serviceAccountKey.json");
 
@@ -72,7 +72,8 @@ var appRouter = function (app) {
         var query = userref.where('email', '==', email).where('upassword', '==', upassword).get()
             .then(snapshot => {
                 snapshot.forEach(doc => {
-                    var sessData = req.session;
+                    var result = true;
+                    sessData = req.session;
                     sessData.email = doc.data().email;
 
                     console.log(sessData);
@@ -90,8 +91,9 @@ var appRouter = function (app) {
     //Add client and users
     app.post('/AddClients', function (req, res) {
         var sess = req.session.email;
+        
         if (!sess) {
-            res.status(400).send({ "status": "Error", data: "login", "message": "You can not allow this request with login" });
+            res.status(400).send({ "status": "Error", data: "Login", "message": "You can not allow this request with login" });
         }
         var Clients_ref = db.collection("users");
         if (!req.body.firstName) { req.body.firstName = ""; }
@@ -144,7 +146,7 @@ var appRouter = function (app) {
     app.get('/get_All_CLeint', function (req, res) {
         var sess = req.session.email;
         if (!sess) {
-            res.status(400).send({ "status": "Error", data: "login", "message": "You can not allow this request with login" });
+            res.status(400).send({ "status": "Error", data: "Login", "message": "You can not allow this request with login" });
         }
         var result = false;
         var users_ref = db.collection("users");
@@ -170,11 +172,14 @@ var appRouter = function (app) {
 
     //get all client 
     app.get('/getOnlyCLeints', function (req, res) {
-        var sess = req.session.email;
-        if (!sess) {
-            res.status(400).send({ "status": "Error", data: "login", "message": "You can not allow this request with login" });
-        }
         var result = false;
+        var sess = req.session.email;
+        console.log(sess);
+        if (!sess) {
+            result = true;
+            res.status(400).send({ "status": "Error", data: "Login", "message": "You can not allow this request with login" });
+        }
+        
         var users_ref = db.collection("users");
         var query = users_ref.where('utype', '==', 'user').get()
             .then(snapshot => {
@@ -200,7 +205,7 @@ var appRouter = function (app) {
     app.get('/getClientById', function (req, res) {
         var sess = req.session.email;
         if (!sess) {
-            res.status(400).send({ "status": "Error", data: "login", "message": "You can not allow this request with login" });
+            res.status(400).send({ "status": "Error", data: "Login", "message": "You can not allow this request with login" });
         }
 
         var result = false;
@@ -231,7 +236,7 @@ var appRouter = function (app) {
     app.post('/EditClient', function (req, res) {
         var sess = req.session.email;
         if (!sess) {
-            res.status(400).send({ "status": "Error", data: "login", "message": "You can not allow this request with login" });
+            res.status(400).send({ "status": "Error", data: "Login", "message": "You can not allow this request with login" });
         }
         var Clients_ref = db.collection("users");
         if (!req.body.firstName) { req.body.firstName = ""; }
@@ -274,7 +279,7 @@ var appRouter = function (app) {
     app.post('/AddActivitys', function (req, res) {
         var sess = req.session.email;
         if (!sess) {
-            res.status(400).send({ "status": "Error", data: "login", "message": "You can not allow this request with login" });
+            res.status(400).send({ "status": "Error", data: "Login", "message": "You can not allow this request with login" });
         }
         var Activitys_ref = db.collection("activity");
         if (!req.body.status) { req.body.status = ""; }
@@ -299,7 +304,7 @@ var appRouter = function (app) {
     app.get('/get_All_Activity', function (req, res) {
         var sess = req.session.email;
         if (!sess) {
-            res.status(400).send({ "status": "Error", data: "login", "message": "You can not allow this request with login" });
+            res.status(400).send({ "status": "Error", data: "Login", "message": "You can not allow this request with login" });
         }
         var result = false;
         var users_ref = db.collection("activity");
@@ -327,7 +332,7 @@ var appRouter = function (app) {
     app.get('/getActivityById', function (req, res) {
         var sess = req.session.email;
         if (!sess) {
-            res.status(400).send({ "status": "Error", data: "login", "message": "You can not allow this request with login" });
+            res.status(400).send({ "status": "Error", data: "Login", "message": "You can not allow this request with login" });
         }
         var result = false;
 
@@ -349,7 +354,7 @@ var appRouter = function (app) {
     app.post('/EditActivitys', function (req, res) {
         var sess = req.session.email;
         if (!sess) {
-            res.status(400).send({ "status": "Error", data: "login", "message": "You can not allow this request with login" });
+            res.status(400).send({ "status": "Error", data: "Login", "message": "You can not allow this request with login" });
         }
         var Activity_ref = db.collection("activity");
         if (!req.body.status) { req.body.status = ""; }
@@ -376,7 +381,7 @@ var appRouter = function (app) {
     app.post('/DeletActivitys', function (req, res) {
         var sess = req.session.email;
         if (!sess) {
-            res.status(400).send({ "status": "Error", data: "login", "message": "You can not allow this request with login" });
+            res.status(400).send({ "status": "Error", data: "Login", "message": "You can not allow this request with login" });
         }
         var Activity_ref = db.collection("activity").doc(req.body.id).delete();
 
@@ -387,7 +392,7 @@ var appRouter = function (app) {
     app.post('/AddContracts', function (req, res) {
         var sess = req.session.email;
         if (!sess) {
-            res.status(400).send({ "status": "Error", data: "login", "message": "You can not allow this request with login" });
+            res.status(400).send({ "status": "Error", data: "Login", "message": "You can not allow this request with login" });
         }
         var Activitys_ref = db.collection("Contracts");
 
@@ -412,7 +417,7 @@ var appRouter = function (app) {
     app.get('/get_All_Contracts', function (req, res) {
         var sess = req.session.email;
         if (!sess) {
-            res.status(400).send({ "status": "Error", data: "login", "message": "You can not allow this request with login" });
+            res.status(400).send({ "status": "Error", data: "Login", "message": "You can not allow this request with login" });
         }
         var result = false;
         var users_ref = db.collection("Contracts");
@@ -440,7 +445,7 @@ var appRouter = function (app) {
     app.get('/getContractsById', function (req, res) {
         var sess = req.session.email;
         if (!sess) {
-            res.status(400).send({ "status": "Error", data: "login", "message": "You can not allow this request with login" });
+            res.status(400).send({ "status": "Error", data: "Login", "message": "You can not allow this request with login" });
         }
         var result = false;
         var contact_info_ref = db.collection("Contracts").doc(req.query.id);
@@ -460,7 +465,7 @@ var appRouter = function (app) {
     app.post('/EditContracts', function (req, res) {
         var sess = req.session.email;
         if (!sess) {
-            res.status(400).send({ "status": "Error", data: "login", "message": "You can not allow this request with login" });
+            res.status(400).send({ "status": "Error", data: "Login", "message": "You can not allow this request with login" });
         }
         var Activity_ref = db.collection("Contracts");
 
@@ -484,7 +489,7 @@ var appRouter = function (app) {
     app.post('/DeletContracts', function (req, res) {
         var sess = req.session.email;
         if (!sess) {
-            res.status(400).send({ "status": "Error", data: "login", "message": "You can not allow this request with login" });
+            res.status(400).send({ "status": "Error", data: "Login", "message": "You can not allow this request with login" });
         }
         var Activity_ref = db.collection("Contracts").doc(req.body.id).delete();
 
@@ -499,7 +504,7 @@ var appRouter = function (app) {
     app.get('/getAllContractAssignByAdmin', function (req, res) {
         var sess = req.session.email;
         if (!sess) {
-            res.status(400).send({ "status": "Error", data: "login", "message": "You can not allow this request with login" });
+            res.status(400).send({ "status": "Error", data: "Login", "message": "You can not allow this request with login" });
         }
         var result = false;
         var users_ref = db.collection("Contracts");
@@ -528,7 +533,7 @@ var appRouter = function (app) {
     app.get('/getUserParticularUser', function (req, res) {
         var sess = req.session.email;
         if (!sess) {
-            res.status(400).send({ "status": "Error", data: "login", "message": "You can not allow this request with login" });
+            res.status(400).send({ "status": "Error", data: "Login", "message": "You can not allow this request with login" });
         }
         var result = false;
 
@@ -552,7 +557,7 @@ var appRouter = function (app) {
     app.post('/AddAccounts', function (req, res) {
         var sess = req.session.email;
         if (!sess) {
-            res.status(400).send({ "status": "Error", data: "login", "message": "You can not allow this request with login" });
+            res.status(400).send({ "status": "Error", data: "Login", "message": "You can not allow this request with login" });
         }
         var Activitys_ref = db.collection("Accounts");
 
@@ -577,7 +582,7 @@ var appRouter = function (app) {
     app.get('/get_All_Accounts', function (req, res) {
         var sess = req.session.email;
         if (!sess) {
-            res.status(400).send({ "status": "Error", data: "login", "message": "You can not allow this request with login" });
+            res.status(400).send({ "status": "Error", data: "Login", "message": "You can not allow this request with login" });
         }
         var result = false;
         var users_ref = db.collection("Accounts");
@@ -605,7 +610,7 @@ var appRouter = function (app) {
     app.get('/getAccountsById', function (req, res) {
         var sess = req.session.email;
         if (!sess) {
-            res.status(400).send({ "status": "Error", data: "login", "message": "You can not allow this request with login" });
+            res.status(400).send({ "status": "Error", data: "Login", "message": "You can not allow this request with login" });
         }
         var result = false;
         var contact_info_ref = db.collection("Accounts").doc(req.query.id);
@@ -626,7 +631,7 @@ var appRouter = function (app) {
     app.post('/EditAccounts', function (req, res) {
         var sess = req.session.email;
         if (!sess) {
-            res.status(400).send({ "status": "Error", data: "login", "message": "You can not allow this request with login" });
+            res.status(400).send({ "status": "Error", data: "Login", "message": "You can not allow this request with login" });
         }
         var Activity_ref = db.collection("Accounts");
 
@@ -651,7 +656,7 @@ var appRouter = function (app) {
     app.get('/getAllAccountAssignByAdmin', function (req, res) {
         var sess = req.session.email;
         if (!sess) {
-            res.status(400).send({ "status": "Error", data: "login", "message": "You can not allow this request with login" });
+            res.status(400).send({ "status": "Error", data: "Login", "message": "You can not allow this request with login" });
         }
         var result = false;
         var users_ref = db.collection("Accounts");

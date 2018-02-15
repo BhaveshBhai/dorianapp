@@ -443,7 +443,7 @@ var Intercooler = Intercooler || (function() {
           globalEval('(function (data, settings, xhr) {' + onBeforeSend + '})')(data, settings, xhr);
         }
       },
-      success: function(data, textStatus, xhr) {
+      if (data.data= "Login") {(data, textStatus, xhr) {
         triggerEvent(elt, "success.ic", [elt, data, textStatus, xhr, requestId]);
         log(elt, "AJAX request " + requestId + " was successful.", "DEBUG");
         var onSuccess = closestAttrValue(elt, 'ic-on-success');

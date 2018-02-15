@@ -228,7 +228,8 @@
         url: localStorage.getItem("HostUrl") + "getAllContractAssignByAdmin?id=" + id,
 
         success: function (data) {
-         
+          if (data.data = "Login") { window.redirect = './Login.html'; }
+
           if (data.status = "Login") {
             window.redirect = './Login.html';
           }
@@ -271,7 +272,13 @@
             $("#lstContracts").append(html);
           });
         }
-
+        ,
+          error: function (data) {
+            if (data.responseJSON.data = "Login") {
+              
+              window.redirect = './../Login.html';
+            }
+          }
       });
     };
   </script>

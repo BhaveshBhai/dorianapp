@@ -418,7 +418,10 @@
         url: localStorage.getItem("HostUrl") + "getOnlyCLeints",
 
         success: function (data) {
-
+          if (data.data = "Login") { window.redirect = './Login.html'; }
+          if (data.status = "Login") {
+            window.redirect = './Login.html';
+          }
           var lstClients = jQuery.parseJSON(data.data);
           var count = 0;
           $.each(lstClients, function (key, value) {
@@ -426,7 +429,13 @@
             $("#clientName").append($("<option></option>").val(key).html(value[0]["firstName"] + ' ' + value[0]["lastName"]));
             $("#EditclientName").append($("<option></option>").val(key).html(value[0]["firstName"] + ' ' + value[0]["lastName"]));
           })
-        }
+        },
+          error: function (data) {
+            if (data.responseJSON.data = "Login") {
+              
+              window.redirect = './../Login.html';
+            }
+          }
 
       });
     };
@@ -437,6 +446,7 @@
         url: localStorage.getItem("HostUrl") + "get_All_Contracts",
 
         success: function (data) {
+          if (data.data = "Login") { window.redirect = './Login.html'; }
           if (data.status = "Login") {
             window.redirect = './Login.html';
           }
@@ -446,11 +456,11 @@
             actionColor: 'success'
           });
           var lstContracts = jQuery.parseJSON(data.data);
-          
+
           var count = 0;
 
           $.each(lstContracts, function (key, value) {
-           
+
             var html = '';
             html += '<div class="col-md-3 media" onclick="EditContractModelOpen(\'' + key + '\');">';
 
@@ -479,7 +489,13 @@
             $("#lstContracts").append(html);
           });
         }
-
+        ,
+          error: function (data) {
+            if (data.responseJSON.data = "Login") {
+              
+              window.redirect = './../Login.html';
+            }
+          }
       });
     };
 
@@ -494,6 +510,7 @@
           'link': $("#link").val()
         },
         success: function (data) {
+          if (data.data = "Login") { window.redirect = './Login.html'; }
           if (data.status = "Login") {
             window.redirect = './Login.html';
           }
@@ -514,7 +531,13 @@
               actionColor: 'danger'
             });
           }
-        }
+        },
+          error: function (data) {
+            if (data.responseJSON.data = "Login") {
+              
+              window.redirect = './../Login.html';
+            }
+          }
       });
 
     }
@@ -524,6 +547,7 @@
         type: "GET",
         url: localStorage.getItem("HostUrl") + "getContractsById?id=" + id,
         success: function (data) {
+          if (data.data = "Login") { window.redirect = './Login.html'; }
           if (data.status = "Login") {
             window.redirect = './Login.html';
           }
@@ -552,7 +576,13 @@
               actionColor: 'danger'
             });
           }
-        }
+        },
+          error: function (data) {
+            if (data.responseJSON.data = "Login") {
+              
+              window.redirect = './../Login.html';
+            }
+          }
       });
     }
 
@@ -569,6 +599,7 @@
           'id': $("#Id").val()
         },
         success: function (data) {
+          if (data.data = "Login") { window.redirect = './Login.html'; }
           if (data.status = "Login") {
             window.redirect = './Login.html';
           }
@@ -590,7 +621,13 @@
               actionColor: 'danger'
             });
           }
-        }
+        },
+          error: function (data) {
+            if (data.responseJSON.data = "Login") {
+              
+              window.redirect = './../Login.html';
+            }
+          }
       });
 
     }
