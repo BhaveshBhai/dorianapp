@@ -23,6 +23,11 @@ var routes = require("./routes/routes.js")(app);
 
 app.use('/', express.static(__dirname + '/public/'));
 app.listen(process.env.PORT || 5000);
+
+server.connection({
+    port: process.env.PORT || 3000 
+});
+
 // var server = app.listen(3000, function () {
 //     console.log("Listening on port %s...", server.address().port);
 // });
