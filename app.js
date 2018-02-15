@@ -21,13 +21,25 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 var routes = require("./routes/routes.js")(app);
 
-app.use('/', express.static(__dirname + '/public/'));
+//app.use('/', express.static(__dirname + '/public/'));
 //app.listen(process.env.PORT || 5000);
 
-var port = process.env.PORT || 3000;
-app.listen(port, "0.0.0.0", function() {
-console.log("Listening on Port 3000");
-});
+//var port = process.env.PORT || 3000;
+//app.listen(port, "0.0.0.0", function() {
+//console.log("Listening on Port 3000");
+//});
+
+const express = require('express')
+const path = require('path')
+const PORT = process.env.PORT || 5000
+
+express()
+  .use(express.static(path.join(__dirname, 'public/login')))
+  .set('views', path.join(__dirname, 'views'))
+  .set('view engine', 'ejs')
+  .get('/', (req, res) => res.render('public/index'))
+  .listen(PORT, () => console.log(`Listening on ${ PORT }`))
+
 
 // var server = app.listen(3000, function () {
 //     console.log("Listening on port %s...", server.address().port);
