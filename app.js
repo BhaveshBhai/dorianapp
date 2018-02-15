@@ -28,15 +28,16 @@ var routes = require("./routes/routes.js")(app);
 //app.listen(port, "0.0.0.0", function() {
 //console.log("Listening on Port 3000");
 //});
+app.use('/', index);
 
 const path = require('path')
-const PORT = process.env.PORT || 24632
+const PORT = process.env.PORT || 3000
 
 express()
-  .use(express.static(path.join(__dirname, 'public/login')))
+  .use(express.static(path.join(__dirname, 'public')))
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
-  .get('/', (req, res) => res.render('public/index'))
+  .get('/', (req, res) => res.render('index'))
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
 
 
